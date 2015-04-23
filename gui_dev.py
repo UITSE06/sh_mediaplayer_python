@@ -73,7 +73,7 @@ class media_player(wx.Frame):
         menubar.Append(menu_fourth, "Tools")
         menubar.Append(menu_fifth, "Help")
         try:
-            self.mc = wx.media.MediaCtrl(self, style=wx.SIMPLE_BORDER,pos=(130,0), size=(550,200))
+            self.mc = wx.media.MediaCtrl(self, style=wx.SIMPLE_BORDER,pos=(0,100), size=(550,200))
         except NotImplementedError:
             self.Destroy()
             raise
@@ -84,12 +84,21 @@ class media_player(wx.Frame):
         
         # Create Media Player with wxPython
         
-        
+        # Button Get File from directory
         btn_load = wx.Button(self,-1,"Load File")
         self.Bind(wx.EVT_BUTTON, self.on_load_file, btn_load)
         
+        # Button Play Video, music...
         btn_play = wx.Button(self, -1, "Play")
         self.Bind(wx.EVT_BUTTON, self.on_play, btn_play)
+        
+        # Button Pause
+        btn_pause = wx.Button(self, -1, "Pause")
+        self.Bind(wx.EVT_BUTTON, self.on_pause, btn_pause)
+        
+        # Button Stop
+        btn_stop = wx.Button(self, -1, "Stop")
+        self.Bind(wx.EVT_BUTTON, self.on_stop, btn_stop)
         
         slider = wx.Slider(self, -1, 0,0.0001,3000, pos=(120,680), style = wx.SL_HORIZONTAL | wx.SL_LABELS, size = (400, -1))
         self.slider = slider
@@ -104,6 +113,9 @@ class media_player(wx.Frame):
         sizer = wx.GridBagSizer(5,5)
         sizer.Add(btn_load, (1,1))
         sizer.Add(btn_play, (2,1))
+        sizer.Add(btn_pause, (3,1))
+        sizer.Add(btn_stop, (4,1))
+        
         sizer.Add(self.st_file, (1, 2))
         sizer.Add(self.st_size, (2, 2))
         sizer.Add(self.st_len,  (3, 2))
@@ -154,6 +166,12 @@ class media_player(wx.Frame):
     
     def on_play(self, evt):
         self.mc.Play()
+    
+    def on_pause(self, evt):
+        self.mc.Pause()
+        
+    def on_stop(self, evt):
+        self.mc.Stop()
             
     def close_button(self, event):
         self.Close(True)
