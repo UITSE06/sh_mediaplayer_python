@@ -11,3 +11,4 @@ Project for Subject (Software Engineering Faculty)
 - How to buid source on Rasperry Pi:
   + Get and Install wxPython for Linux.
   + Copy source.
+  + ...continue
