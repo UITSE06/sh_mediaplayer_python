@@ -25,10 +25,14 @@ class media_player(wx.Frame):
         menu_fourth = wx.Menu()
         menu_fifth = wx.Menu()
                  
-        menu_first.Append(wx.NewId(),"&Open\tCtrl+O", "This is a new window")
+        menu_open = menu_first.Append(wx.NewId(),"&Open\tCtrl+O", "This is a new window")
+        self.Bind(wx.EVT_MENU, self.on_load_file, menu_open)
+        
         menu_first.Append(wx.NewId(),'Open &URL\tCtrl+U',"This will open media online")
         menu_first.Append(wx.NewId(),"&Save as\tCtrl+S", "Save a new playlist")
-        menu_first.Append(wx.NewId(),"Close\tCtrl+Q","This will close windows")
+        
+        menu_close = menu_first.Append(wx.NewId(),"Close\tCtrl+Q","This will close windows")
+        self.Bind(wx.EVT_MENU, self.close_button, menu_close)
         menu_first.AppendSeparator()
          
          
@@ -41,6 +45,7 @@ class media_player(wx.Frame):
          
          
         menu_second.Append(wx.NewId(),"Library", "This is a new window")
+        
         menu_second.Append(wx.NewId(),"Skin","This will open media online")
         menu_second.Append(wx.NewId(),"Now Playing", "Save a new playlist")
         menu_second.Append(wx.NewId(),"Skin Chooser","This will close windows")
@@ -68,7 +73,7 @@ class media_player(wx.Frame):
         menubar.Append(menu_fourth, "Tools")
         menubar.Append(menu_fifth, "Help")
         try:
-            self.mc = wx.media.MediaCtrl(self, style=wx.SIMPLE_BORDER,pos=(130,10), size=(400,200))
+            self.mc = wx.media.MediaCtrl(self, style=wx.SIMPLE_BORDER,pos=(130,0), size=(550,200))
         except NotImplementedError:
             self.Destroy()
             raise
@@ -103,7 +108,7 @@ class media_player(wx.Frame):
         sizer.Add(self.st_size, (2, 2))
         sizer.Add(self.st_len,  (3, 2))
         sizer.Add(self.st_pos,  (4, 2))
-        sizer.Add(self.mc, (5,1), span=(5,1))  # for .avi .mpg video files
+        sizer.Add(self.mc, (5,1), span=(5,1))  # for .avi .mpg video files        
         self.SetSizer(sizer)
         
         self.timer = wx.Timer(self)
@@ -141,7 +146,8 @@ class media_player(wx.Frame):
         else:
             folder, filename = os.path.split(path)
             self.st_file.SetLabel('%s' % filename)
-            self.mc.SetBestFittingSize()
+            
+            self.mc.SetBestFittingSize(wx.Size(450,450))
             self.GetSizer().Layout()
             self.slider.SetRange(0, self.mc.Length())
             self.mc.Play()
