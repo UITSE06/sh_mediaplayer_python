@@ -11,4 +11,5 @@ Project for Subject (Software Engineering Faculty)
 - How to buid source on Rasberry Pi:
   + Get and Install wxPython for Linux.
   + Copy source.
+  + Create PyDev Project: Fill 'Project Name' and uncheck 'Use default' -> Directory to source -> Finish
   + ...continue
